@@ -40,6 +40,28 @@ def prepare_data(data):
 
     return (features, prices)
 
+def test(model):
+    test_dataset_path = 'mieszkania_test.csv'
+
+    data = load_data_from_file(test_dataset_path)
+    
+    (X, Y) = prepare_data(data)
+
+    X = torch.tensor(X, dtype=torch.float32)
+    Y = torch.tensor(Y, dtype=torch.float32)
+    Y = Y.view(Y.shape[0], 1)
+
+    predictions = model(X)
+
+    criterion = nn.MSELoss()
+    loss = criterion(predictions, Y)
+
+    print(f'Mean squared error: {loss}')
+
+    print('Sample predictions on test dataset:')
+    for i in range(100):
+        print(f'Apartment {i} - actual price: {Y[i].item()}, predicted price: {model(X[i]).item()}')
+
 def train():
     train_dataset_path = 'mieszkania.csv'
 
@@ -70,5 +92,7 @@ def train():
 
         if epoch % 10 == 0:
             print(f'epoch {epoch + 1}: loss = {loss}')
+
+    test(model)
 
 train()
