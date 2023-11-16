@@ -1,0 +1,5 @@
+dataset_path: 'mieszkania.csv'
+test_dataset_size: 0.3
+learning_rate: 0.01
+epochs: 1000
+batch_size: 64
